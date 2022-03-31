@@ -1,5 +1,3 @@
-README creado por Oscar, Fer, Ruby y yo
-
 # WebGoat 8: A deliberately insecure Web Application
 
 [![Pull request build](https://github.com/WebGoat/WebGoat/actions/workflows/pr_build.yml/badge.svg?branch=develop)](https://github.com/WebGoat/WebGoat/actions/workflows/pr_build.yml)
