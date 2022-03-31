@@ -81,9 +81,6 @@ public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSo
     .dataSource(dataSource)
     .usersByUsernameQuery("Select * from users where username=?")
     .passwordEncoder(new BCryptPasswordEncoder());
-
-  // or
-  auth.userDetailsService(null).passwordEncoder(new BCryptPasswordEncoder());
 }
 
     @Bean
