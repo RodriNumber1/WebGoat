@@ -49,23 +49,17 @@ public class Assignment5 extends AssignmentEndpoint {
 
     @PostMapping("/challenge/5")
     @ResponseBody
-    public AttackResult login(@RequestParam String username_login, @RequestParam String password_login) throws Exception {
-        if (!StringUtils.hasText(username_login) || !StringUtils.hasText(password_login)) {
-            return failed(this).feedback("required4").build();
-        }
-        if (!"Larry".equals(username_login)) {
-            return failed(this).feedback("user.not.larry").feedbackArgs(username_login).build();
-        }
-        try (var connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("select password from challenge_users where userid = '" + username_login + "' and password = '" + password_login + "'");
-            ResultSet resultSet = statement.executeQuery();
+    public boolean authenticate(javax.servlet.http.HttpServletRequest request, java.sql.Connection connection) throws SQLException {
+  String user = request.getParameter("user");
+  String pass = request.getParameter("pass");
 
-            if (resultSet.next()) {
-                return success(this).feedback("challenge.solved").feedbackArgs(Flag.FLAGS.get(5)).build();
-            } else {
-                return failed(this).feedback("challenge.close").build();
-            }
-        }
-    }
+  String query = "SELECT * FROM users WHERE user = ? AND pass = ?"; // Safe even if authenticate() method is still vulnerable to brute-force attack in this specific case
+
+  java.sql.PreparedStatement statement = connection.prepareStatement(query);
+  statement.setString(1, user); // Will be properly escaped
+  statement.setString(2, pass);
+  java.sql.ResultSet resultSet = statement.executeQuery();
+  return resultSet.next();
+}
 }
 
