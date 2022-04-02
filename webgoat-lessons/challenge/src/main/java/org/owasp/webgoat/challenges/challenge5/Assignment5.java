@@ -69,7 +69,7 @@ public class Assignment5 extends AssignmentEndpoint {
                 return failed(this).feedback("challenge.close").build();
             }
         } finally {
-            connection.close();
+            statement.close();
         }
     }
 }
